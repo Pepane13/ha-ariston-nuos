@@ -73,6 +73,20 @@ def last_day_energy(sequences: list[dict[str, Any]] | None, kind: int) -> float 
     return None
 
 
+def last_bucket(sequences: list[dict[str, Any]] | None, kind: int) -> float | None:
+    """Most recent hourly bucket of the last-day sequence (p = 1), in kWh."""
+    for seq in sequences or []:
+        if isinstance(seq, dict) and seq.get("k") == kind and seq.get("p") == 1:
+            values = seq.get("v")
+            if not isinstance(values, list) or not values:
+                return None
+            try:
+                return round(float(values[-1]), 3)
+            except (TypeError, ValueError):
+                return None
+    return None
+
+
 class AristonNuosApi:
     """Ariston NET client. Requests are serialised: the cloud dislikes bursts."""
 

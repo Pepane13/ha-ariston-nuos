@@ -21,7 +21,9 @@ python-ariston-api 0.19.9 sends `{"new": 0}` only. A missing `old` most likely r
 | `switch` Anti-legionella, Preheating | Plant settings |
 | `number` Reduced temperature, Green maximum, minimum / maximum set point, heating rate (disabled by default) | Set points and settings |
 | `binary_sensor` Heat pump | Heat pump running |
-| `sensor` Water temperature, requested temperature, current mode, heat pump / resistor energy of the last day | Readings |
+| `sensor` Water temperature, requested temperature, current mode | Readings (long-term statistics for the temperatures) |
+| `sensor` Heat pump energy, Resistor energy | Last hourly bucket of the cloud report, `state_class: total` with `last_reset` (Energy dashboard compatible, same model as the core integration) |
+| `sensor` Heat pump / resistor energy, last day | Sum of the last-day report |
 | `button` Refresh | Reads state, settings and energy again |
 
 Every command is shown at once, then read back from the cloud 20 seconds later, and fires an `ariston_nuos_command` event (command, new and old value) that automations or the logbook can use.

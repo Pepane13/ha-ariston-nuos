@@ -90,6 +90,10 @@ async def test_entities(hass: HomeAssistant, aioclient_mock):
     assert hass.states.get(_eid(hass, "sensor", "heat_pump_energy_last_day")).state == "0.45"
     assert hass.states.get(_eid(hass, "sensor", "resistor_energy_last_day")).state == "2.5"
     assert hass.states.get(_eid(hass, "select", "mode_select")).state == "comfort"
+    hp = hass.states.get(_eid(hass, "sensor", "heat_pump_energy"))
+    assert hp.state == "0.25" and hp.attributes["state_class"] == "total"
+    assert hass.states.get(_eid(hass, "sensor", "resistor_energy")).state == "2.5"
+    assert hass.states.get(_eid(hass, "sensor", "requested_temperature")).attributes["state_class"] == "measurement"
 
 
 async def test_green_sends_old_mode(hass: HomeAssistant, aioclient_mock):

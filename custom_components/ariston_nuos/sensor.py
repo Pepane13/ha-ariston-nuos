@@ -25,6 +25,7 @@ from .entity import AristonNuosEntity
 @dataclass(frozen=True, kw_only=True)
 class NuosSensorDescription(SensorEntityDescription):
     value: Callable[[AristonNuosCoordinator], Any]
+    last_reset: Callable[[AristonNuosCoordinator], Any] | None = None
 
 
 def _num(v: Any) -> float | None:
@@ -45,6 +46,7 @@ SENSORS: tuple[NuosSensorDescription, ...] = (
         key="requested_temperature",
         translation_key="requested_temperature",
         device_class=SensorDeviceClass.TEMPERATURE,
+        state_class=SensorStateClass.MEASUREMENT,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         value=lambda c: _num(c.live.get(D_PROC_REQ_TEMP)),
     ),
@@ -54,6 +56,26 @@ SENSORS: tuple[NuosSensorDescription, ...] = (
         device_class=SensorDeviceClass.ENUM,
         options=[m.lower() for m in MODES],
         value=lambda c: c.mode.lower() if c.mode else None,
+    ),
+    NuosSensorDescription(
+        key="heat_pump_energy",
+        translation_key="heat_pump_energy",
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        suggested_display_precision=2,
+        value=lambda c: _num(c.energy.get("heat_pump_hour")),
+        last_reset=lambda c: c.energy.get("hour_start"),
+    ),
+    NuosSensorDescription(
+        key="resistor_energy",
+        translation_key="resistor_energy",
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        suggested_display_precision=2,
+        value=lambda c: _num(c.energy.get("resistor_hour")),
+        last_reset=lambda c: c.energy.get("hour_start"),
     ),
     NuosSensorDescription(
         key="heat_pump_energy_last_day",
@@ -93,3 +115,9 @@ class NuosSensor(AristonNuosEntity, SensorEntity):
     @property
     def native_value(self) -> Any:
         return self.entity_description.value(self.coordinator)
+
+    @property
+    def last_reset(self):
+        if self.entity_description.last_reset is None:
+            return None
+        return self.entity_description.last_reset(self.coordinator)

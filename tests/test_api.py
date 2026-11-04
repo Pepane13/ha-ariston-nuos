@@ -2,7 +2,7 @@
 
 import pytest
 
-from custom_components.ariston_nuos.api import last_day_energy, mode_change_body
+from custom_components.ariston_nuos.api import last_bucket, last_day_energy, mode_change_body
 
 
 def test_green_carries_old_mode():
@@ -31,3 +31,10 @@ def test_last_day_energy():
     assert last_day_energy(seq, 9) == 2.5
     assert last_day_energy(seq, 7) is None
     assert last_day_energy(None, 8) is None
+
+
+def test_last_bucket():
+    seq = [{"k": 8, "p": 1, "v": [0.1, 0.35]}, {"k": 9, "p": 1, "v": []}]
+    assert last_bucket(seq, 8) == 0.35
+    assert last_bucket(seq, 9) is None
+    assert last_bucket(seq, 7) is None

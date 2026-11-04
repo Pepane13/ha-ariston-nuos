@@ -45,17 +45,31 @@
   },
   "entity": {
     "binary_sensor": {
-      "heat_pump": { "name": "Heat pump" }
+      "heat_pump": {
+        "name": "Heat pump"
+      }
     },
     "button": {
-      "refresh": { "name": "Refresh" }
+      "refresh": {
+        "name": "Refresh"
+      }
     },
     "number": {
-      "reduced_temperature": { "name": "Reduced temperature" },
-      "max_green_temperature": { "name": "Green maximum temperature" },
-      "max_setpoint_temperature": { "name": "Maximum set point" },
-      "min_setpoint_temperature": { "name": "Minimum set point" },
-      "heating_rate": { "name": "Heating rate" }
+      "reduced_temperature": {
+        "name": "Reduced temperature"
+      },
+      "max_green_temperature": {
+        "name": "Green maximum temperature"
+      },
+      "max_setpoint_temperature": {
+        "name": "Maximum set point"
+      },
+      "min_setpoint_temperature": {
+        "name": "Minimum set point"
+      },
+      "heating_rate": {
+        "name": "Heating rate"
+      }
     },
     "select": {
       "mode": {
@@ -69,8 +83,12 @@
       }
     },
     "sensor": {
-      "water_temperature": { "name": "Water temperature" },
-      "requested_temperature": { "name": "Requested temperature" },
+      "water_temperature": {
+        "name": "Water temperature"
+      },
+      "requested_temperature": {
+        "name": "Requested temperature"
+      },
       "mode": {
         "name": "Current mode",
         "state": {
@@ -80,14 +98,32 @@
           "imemory": "i-Memory"
         }
       },
-      "heat_pump_energy_last_day": { "name": "Heat pump energy, last day" },
-      "resistor_energy_last_day": { "name": "Resistor energy, last day" }
+      "heat_pump_energy_last_day": {
+        "name": "Heat pump energy, last day"
+      },
+      "resistor_energy_last_day": {
+        "name": "Resistor energy, last day"
+      },
+      "heat_pump_energy": {
+        "name": "Heat pump energy"
+      },
+      "resistor_energy": {
+        "name": "Resistor energy"
+      }
     },
     "switch": {
-      "power": { "name": "Power" },
-      "boost": { "name": "Boost" },
-      "anti_legionella": { "name": "Anti-legionella" },
-      "preheating": { "name": "Preheating" }
+      "power": {
+        "name": "Power"
+      },
+      "boost": {
+        "name": "Boost"
+      },
+      "anti_legionella": {
+        "name": "Anti-legionella"
+      },
+      "preheating": {
+        "name": "Preheating"
+      }
     }
   }
 }

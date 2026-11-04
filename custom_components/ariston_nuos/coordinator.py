@@ -13,7 +13,7 @@ from homeassistant.helpers.event import async_call_later
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
-from .api import AristonAuthError, AristonError, AristonNuosApi, last_day_energy
+from .api import AristonAuthError, AristonError, AristonNuosApi, last_bucket, last_day_energy
 from .const import (
     CONF_SCAN_INTERVAL,
     CONS_HEAT_PUMP,
@@ -69,7 +69,14 @@ class AristonNuosCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.model = model
         self._live: dict[str, Any] = {}
         self._settings: dict[str, Any] = {}
-        self._energy: dict[str, float | None] = {"heat_pump": None, "resistor": None}
+        self._energy: dict[str, Any] = {
+            "heat_pump": None,
+            "resistor": None,
+            "heat_pump_hour": None,
+            "resistor_hour": None,
+            "hour_start": None,
+        }
+        self._sequences: list | None = None
         self._settings_at = None
         self._energy_at = None
         self._verify_unsub = None
@@ -87,10 +94,19 @@ class AristonNuosCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 self._energy_at = now
                 try:
                     seq = await self.api.async_get_consumption(self.gw)
-                    self._energy = {
-                        "heat_pump": last_day_energy(seq, CONS_HEAT_PUMP),
-                        "resistor": last_day_energy(seq, CONS_RESISTOR),
-                    }
+                    changed = seq != self._sequences
+                    self._sequences = seq
+                    self._energy.update(
+                        heat_pump=last_day_energy(seq, CONS_HEAT_PUMP),
+                        resistor=last_day_energy(seq, CONS_RESISTOR),
+                        heat_pump_hour=last_bucket(seq, CONS_HEAT_PUMP),
+                        resistor_hour=last_bucket(seq, CONS_RESISTOR),
+                    )
+                    if changed:
+                        # a new hourly bucket: it covers the hour that has just ended
+                        self._energy["hour_start"] = (now - timedelta(hours=1)).replace(
+                            minute=0, second=0, microsecond=0
+                        )
                 except AristonError as err:
                     _LOGGER.debug("Energy report unavailable: %s", err)
         except AristonAuthError as err:

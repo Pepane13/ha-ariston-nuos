@@ -103,6 +103,12 @@
       },
       "resistor_energy_last_day": {
         "name": "Énergie résistance, dernier jour"
+      },
+      "heat_pump_energy": {
+        "name": "Énergie pompe à chaleur"
+      },
+      "resistor_energy": {
+        "name": "Énergie résistance"
       }
     },
     "switch": {
