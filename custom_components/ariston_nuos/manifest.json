@@ -1,0 +1,18 @@
+{
+  "domain": "ariston_nuos",
+  "name": "Ariston Nuos",
+  "codeowners": [
+    "@Pepane13"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/Pepane13/ha-ariston-nuos",
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/Pepane13/ha-ariston-nuos/issues",
+  "loggers": [
+    "custom_components.ariston_nuos"
+  ],
+  "requirements": [],
+  "version": "0.1.0"
+}

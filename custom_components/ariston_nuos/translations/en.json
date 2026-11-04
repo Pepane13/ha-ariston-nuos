@@ -1,0 +1,93 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Ariston NET account",
+        "description": "Account of the Ariston NET app. The password is stored only in Home Assistant.",
+        "data": {
+          "username": "Email",
+          "password": "Password"
+        }
+      },
+      "plant": {
+        "title": "Water heater",
+        "data": {
+          "gateway": "Water heater"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Ariston NET login",
+        "data": {
+          "username": "Email",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Login refused by Ariston NET.",
+      "cannot_connect": "Ariston NET cloud unreachable.",
+      "no_devices": "No water heater on this account."
+    },
+    "abort": {
+      "already_configured": "These water heaters are already configured.",
+      "reauth_successful": "Login updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Polling",
+        "data": {
+          "scan_interval": "Polling interval (minutes)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "heat_pump": { "name": "Heat pump" }
+    },
+    "button": {
+      "refresh": { "name": "Refresh" }
+    },
+    "number": {
+      "reduced_temperature": { "name": "Reduced temperature" },
+      "max_green_temperature": { "name": "Green maximum temperature" },
+      "max_setpoint_temperature": { "name": "Maximum set point" },
+      "min_setpoint_temperature": { "name": "Minimum set point" },
+      "heating_rate": { "name": "Heating rate" }
+    },
+    "select": {
+      "mode": {
+        "name": "Mode",
+        "state": {
+          "green": "Green",
+          "comfort": "Comfort",
+          "fast": "Fast",
+          "imemory": "i-Memory"
+        }
+      }
+    },
+    "sensor": {
+      "water_temperature": { "name": "Water temperature" },
+      "requested_temperature": { "name": "Requested temperature" },
+      "mode": {
+        "name": "Current mode",
+        "state": {
+          "green": "Green",
+          "comfort": "Comfort",
+          "fast": "Fast",
+          "imemory": "i-Memory"
+        }
+      },
+      "heat_pump_energy_last_day": { "name": "Heat pump energy, last day" },
+      "resistor_energy_last_day": { "name": "Resistor energy, last day" }
+    },
+    "switch": {
+      "power": { "name": "Power" },
+      "boost": { "name": "Boost" },
+      "anti_legionella": { "name": "Anti-legionella" },
+      "preheating": { "name": "Preheating" }
+    }
+  }
+}
